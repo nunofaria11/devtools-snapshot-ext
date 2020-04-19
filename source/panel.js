@@ -1,68 +1,22 @@
 import optionsStorage from './options-storage';
+import Snapshot from './app/snapshot';
 
-const LOG_TAG = "PanelController |";
+// Store form options
+optionsStorage.syncForm('#snapshotForm');
 
-class SnapshotPanel {
+// HTML elements
+const screenshotEl = document.querySelector("#screenshot");
+const saveButtonEl = document.querySelector("#saveButton");
 
-    constructor() {
+saveButtonEl.addEventListener("click", (evt) => {
 
-        // Store form options
-        optionsStorage.syncForm('#snapshotForm');
+    // Add more options here
+    const screenshot = screenshotEl.checked;
+    const network = false;
+    const console = false;
+    const storage = false;
 
-        // HTML elements
-        this.screenshotEl = document.querySelector("#screenshot");
-        this.saveButtonEl = document.querySelector("#saveButton");
+    Snapshot.capture({ screenshot, network, console, storage });
 
-        this.saveButtonEl.addEventListener("click", this.onSave.bind(this));
-
-        console.log(`${LOG_TAG} Initialized.`);
-    }
-
-    onSave(evt) {
-        console.log(`${LOG_TAG} Saving snapshot...`, evt);
-
-        const screenshot = this.screenshotEl.checked;
-
-        SnapshotPanel.snapshot({screenshot});
-
-        evt.preventDefault();
-    }
-
-    /**
-     * 
-     * @param {Object} options The options select to take the screenshot:
-     *  @param {Boolean} [options.screenshot]
-     */
-    static async snapshot(options) {
-        
-        let screenshot;
-
-        if (options.screenshot) {
-            screenshot = await SnapshotPanel.captureScreenshot();
-        }
-
-    }
-
-
-    static async captureScreenshot() {
-        console.log(`${LOG_TAG} Capturing screenshot...`);
-
-        // Save as PNG
-        const options = { format: "png" };
-
-        try {
-
-            const dataUrl = await browser.tabs.captureVisibleTab(null, options);
-            console.log(`${LOG_TAG} Successfully captured screenshot.`, dataUrl);
-            return dataUrl;
-
-        } catch (err) {
-
-            console.error(`${LOG_TAG} Error occurred on screenshot.`, err);
-            throw err;
-        }
-
-    }
-}
-
-export default new SnapshotPanel();
+    evt.preventDefault();
+});

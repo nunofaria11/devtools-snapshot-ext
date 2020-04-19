@@ -1,5 +1,5 @@
 browser.devtools.panels.create(
     "DevTools Snapshot", // title
-    null, // icon
+    "", // icon
     "panel.html" // content
 );

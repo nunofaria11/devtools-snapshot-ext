@@ -4,16 +4,17 @@
 	"description": "A browser extension to save the current state of the DevTools panel.",
 	"homepage_url": "https://github.com/nunofaria11/devtools-snapshot-ext",
 	"manifest_version": 2,
-	"minimum_chrome_version": "74",
+	"minimum_chrome_version": "44",
 	"devtools_page": "devtools.html",
 	"icons": {},
 	"permissions": [
 		"<all_urls>",
+		"http://*/",
+        "https://*/",
 		"storage",
 		"tabs",
 		"activeTab",
-		"http://*/",
-        "https://*/"
+		"downloads"
 	],
 	"background": {
 		"persistent": false,
