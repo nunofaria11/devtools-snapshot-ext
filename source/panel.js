@@ -5,18 +5,17 @@ import Snapshot from './app/snapshot';
 optionsStorage.syncForm('#snapshotForm');
 
 // HTML elements
-const screenshotEl = document.querySelector("#screenshot");
-const saveButtonEl = document.querySelector("#saveButton");
+const screenshotEl = document.querySelector('#screenshot');
+const saveButtonEl = document.querySelector('#saveButton');
 
-saveButtonEl.addEventListener("click", (evt) => {
+saveButtonEl.addEventListener('click', evt => {
+	// Add more options here
+	const screenshot = screenshotEl.checked;
+	const network = false;
+	const console = false;
+	const storage = false;
 
-    // Add more options here
-    const screenshot = screenshotEl.checked;
-    const network = false;
-    const console = false;
-    const storage = false;
+	Snapshot.capture({screenshot, network, console, storage});
 
-    Snapshot.capture({ screenshot, network, console, storage });
-
-    evt.preventDefault();
+	evt.preventDefault();
 });
