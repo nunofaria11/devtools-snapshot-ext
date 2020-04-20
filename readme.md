@@ -2,6 +2,7 @@
 A browser extension to save the current state of the DevTools panel.
 
 ## TODO
+
 [ ] Screenshot
 [ ] Save file
 [ ] Save in zip file
