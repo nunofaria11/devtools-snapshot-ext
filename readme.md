@@ -1,4 +1,7 @@
 # DevTools Snapshot Extension
+
+![Test](https://github.com/nunofaria11/devtools-snapshot-ext/workflows/Test/badge.svg)
+
 A browser extension to save the current state of the DevTools panel.
 
 ## TODO
