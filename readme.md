@@ -7,7 +7,7 @@ A browser extension to save the current state of the DevTools panel.
 ## TODO
 - [X] Screenshot
 - [X] Save file
-- [ ] Save in zip file
+- [X] Save in zip file
 - [ ] Console logs
 - [ ] Network HAR file
 - [ ] Local storage
