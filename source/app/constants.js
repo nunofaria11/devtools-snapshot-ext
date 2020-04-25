@@ -8,8 +8,9 @@ const Constants = {
 		// Message to request screenshot
 		SCREENSHOT: 'm_screenshot',
 
-		// Message to request a save-file; has data with a "file" and "filename" properties
-		SAVE_DATA_URL: 'm_savedataurl'
+		// Message to request a save-file;
+		// { screenshotDataUrl }
+		SAVE_FILES: 'm_savefiles'
 	}
 };
 

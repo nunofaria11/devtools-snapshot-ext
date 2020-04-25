@@ -1,3 +1,5 @@
+import JSZip from 'jszip';
+
 const LOG_TAG = 'FileUtils |';
 
 export default class FileUtils {
@@ -63,8 +65,16 @@ export default class FileUtils {
 		return FileUtils.downloadFile(blob, name);
 	}
 
-	static zip(name, files) {
-		console.log(`${LOG_TAG} Zipping files.`, {name, files});
-		throw new Error('todo');
+	static zip(files) {
+		console.log(`${LOG_TAG} Zipping files.`, {files});
+
+		const jszip = new JSZip();
+
+		let file;
+		for (file of files) {
+			jszip.file(file.name, file);
+		}
+
+		return jszip.generateAsync({type: 'blob'});
 	}
 }

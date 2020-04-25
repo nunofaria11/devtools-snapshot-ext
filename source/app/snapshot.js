@@ -15,13 +15,10 @@ export default class Snapshot {
 	static async capture(options) {
 		if (options.screenshot) {
 			// Request screenshot from background script
-			const dataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT);
+			const screenshotDataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT);
 
 			// Request save-file operation from background script
-			await Messaging.sendMessage(Constants.Messages.SAVE_DATA_URL, {
-				dataUrl,
-				filename: `snapshot-${Date.now()}.png`
-			});
+			await Messaging.sendMessage(Constants.Messages.SAVE_DATA_URL, {screenshotDataUrl});
 		}
 	}
 

@@ -10,12 +10,23 @@ async function handleScreenshotRequest() {
 	return Snapshot.captureScreenshot();
 }
 
-async function handleSaveDataUrl(fileData) {
-	console.log(`${LOG_TAG} Handling save file request...`, fileData);
-	const {dataUrl, filename} = fileData;
-	const file = FileUtils.toBlob(dataUrl);
-	return FileUtils.saveFile(file, filename);
+async function handleSaveFiles(fileData) {
+	console.log(`${LOG_TAG} Handling save files request...`, fileData);
+
+	const timestamp = Date.now();
+	const files = [];
+	const {screenshotDataUrl} = fileData;
+
+	if (screenshotDataUrl) {
+		const screenshotBlob = FileUtils.toBlob(screenshotDataUrl);
+		const screenshotFile = new File([screenshotBlob], `screenshot-${timestamp}.png`);
+		files.push(screenshotFile);
+	}
+
+	const zipFile = await FileUtils.zip(files);
+
+	return FileUtils.saveFile(zipFile, `snapshot-${timestamp}.zip`);
 }
 
 Messaging.registerMessageHandler(Constants.Messages.SCREENSHOT, handleScreenshotRequest);
-Messaging.registerMessageHandler(Constants.Messages.SAVE_DATA_URL, handleSaveDataUrl);
+Messaging.registerMessageHandler(Constants.Messages.SAVE_FILES, handleSaveFiles);
