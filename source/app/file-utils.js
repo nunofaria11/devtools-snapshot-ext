@@ -36,20 +36,25 @@ export default class FileUtils {
 
 		const options = {
 			url,
-			saveAs: true,
+			saveAs: false,
 			filename: name
 		};
 
 		try {
-			const result = await browser.downloads.download(options);
-			console.log(`${LOG_TAG} File downloaded successfully.`, result);
+			const downloadId = await browser.downloads.download(options);
+			
+			// Wait for download to finish to revoke URL
+			browser.downloads.onChanged.addListener(downloadItem => {
+				if (downloadId === downloadItem.id) {
+					console.log(`${LOG_TAG} File downloaded successfully.`, result);
+					URL.revokeObjectURL(url);
+				}
+			});
 
 			return true;
 		} catch (error) {
 			console.error(`${LOG_TAG} Error on file download.`, error);
 			throw error;
-		} finally {
-			URL.revokeObjectURL(url);
 		}
 	}
 

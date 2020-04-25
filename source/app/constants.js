@@ -9,7 +9,7 @@ const Constants = {
 		SCREENSHOT: 'm_screenshot',
 
 		// Message to request a save-file; has data with a "file" and "filename" properties
-		SAVE_FILE: 'm_savefile'
+		SAVE_DATA_URL: 'm_savedataurl'
 	}
 };
 
