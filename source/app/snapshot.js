@@ -1,4 +1,3 @@
-import FileUtils from './file-utils';
 import Constants from './constants';
 import Messaging from './messaging';
 
@@ -14,16 +13,14 @@ export default class Snapshot {
      *  @param {Boolean} [options.storage] A boolean flag indicating if storage dump is active.
      */
 	static async capture(options) {
-	
 		if (options.screenshot) {
-
 			// Request screenshot from background script
 			const dataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT);
 
 			// Request save-file operation from background script
 			await Messaging.sendMessage(Constants.Messages.SAVE_DATA_URL, {
-			    dataUrl,
-			    filename: `snapshot-${Date.now()}.png`
+				dataUrl,
+				filename: `snapshot-${Date.now()}.png`
 			});
 		}
 	}

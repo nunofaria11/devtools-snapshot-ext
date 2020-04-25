@@ -13,7 +13,7 @@ async function handleScreenshotRequest() {
 async function handleSaveDataUrl(fileData) {
 	console.log(`${LOG_TAG} Handling save file request...`, fileData);
 	const {dataUrl, filename} = fileData;
-	const file = FileUtils.toBlob(dataUrl)
+	const file = FileUtils.toBlob(dataUrl);
 	return FileUtils.saveFile(file, filename);
 }
 

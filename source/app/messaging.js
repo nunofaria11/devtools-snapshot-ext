@@ -53,12 +53,12 @@ class Messaging {
 		const {name, data} = message;
 		const handlers = this.handlers[name];
 		if (handlers) {
-			const results = [];
+			const promises = [];
 			for (const handler of handlers) {
-				const result = await handler(data);
-				results.push(result);
+				promises.push(handler(data));
 			}
 
+			const results = await Promise.all(promises);
 			return (results.length === 1 ? results[0] : results);
 		}
 
