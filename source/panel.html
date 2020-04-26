@@ -10,15 +10,35 @@
 </head>
 
 <body>
-    <form id="snapshotForm" class="snapshot-options">
 
-        <label class="snapshot_label">
-            <input id="screenshot" name="screenshot" type="checkbox" value="true" class="snapshot_checkbox" />
-            <span class="snapshot_label_text">Screenshot</span>
-        </label>
+    <form id="snapshotForm" class="snapshot-main snapshot-panel">
 
-        <button id="saveButton" type="button" class="snapshot_button">Save</button>
+        <div class="snapshot-save snapshot-subpanel">
 
+            <div class="snapshot-save">
+                <div class="save-item">
+                    <button id="saveButton" type="button" class="snapshot_button">Save snapshot</button>
+                </div>
+                <div class="save-item">Save a snapshot of the DevTools</div>
+            </div>
+        </div>
+
+        <div class="snapshot-subpanel">
+
+            <div class="snapshot-options">
+
+                <div class="snapshot-option">
+                    <input id="screenshot" name="screenshot" type="checkbox" value="true" class="snapshot-checkbox" />
+                    <label for="screenshot" class="snapshot-label-text">Screenshot</span>
+                </div>
+
+                <div class="snapshot-option">
+                    <input id="console" name="console" type="checkbox" value="true" class="console-checkbox" />
+                    <label for="console" class="console-label-text">Console</span>
+                </div>
+            </div>
+
+        </div>
     </form>
     <script src="panel.js"></script>
 </body>
