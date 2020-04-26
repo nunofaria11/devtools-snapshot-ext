@@ -18,7 +18,7 @@ export default class Snapshot {
 			const screenshotDataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT);
 
 			// Request save-file operation from background script
-			await Messaging.sendMessage(Constants.Messages.SAVE_DATA_URL, {screenshotDataUrl});
+			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, {screenshotDataUrl});
 		}
 	}
 
