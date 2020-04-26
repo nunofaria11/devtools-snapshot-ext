@@ -75,6 +75,12 @@ export default class FileUtils {
 			jszip.file(file.name, file);
 		}
 
-		return jszip.generateAsync({type: 'blob'});
+		return jszip.generateAsync({
+			type: 'blob',
+			compression: 'DEFLATE',
+			compressionOptions: {
+				level: 9
+			}
+		});
 	}
 }
