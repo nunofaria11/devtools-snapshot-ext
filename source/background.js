@@ -2,16 +2,17 @@ import Constants from './app/constants';
 import Snapshot from './app/snapshot';
 import FileUtils from './app/file-utils';
 import Messaging from './app/messaging';
+import Logger from './app/logger';
 
-const LOG_TAG = 'Background |';
+const LOG_TAG = 'Background';
 
 async function handleScreenshotRequest() {
-	console.log(`${LOG_TAG} Handling screenshot request...`);
+	Logger.log(LOG_TAG, 'Handling screenshot request...');
 	return Snapshot.captureScreenshot();
 }
 
 async function handleSaveFiles(fileData) {
-	console.log(`${LOG_TAG} Handling save files request...`, fileData);
+	Logger.log(LOG_TAG, 'Handling save files request...', fileData);
 
 	const timestamp = Date.now();
 	const files = [];

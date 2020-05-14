@@ -9,12 +9,13 @@
 	"icons": {},
 	"permissions": [
 		"<all_urls>",
-		"http://*/",
-        "https://*/",
+		"http://*/*",
+        "https://*/*",
 		"storage",
 		"tabs",
 		"activeTab",
-		"downloads"
+		"downloads",
+		"debugger"
 	],
 	"background": {
 		"persistent": false,
@@ -22,5 +23,13 @@
 			"browser-polyfill.min.js",
 			"background.js"
 		]
-	}
+	},
+	"content_scripts": [{
+		"matches": ["<all_urls>"],
+		"js": [
+			"browser-polyfill.min.js",
+			"content.js"
+		],
+		"run_at": "document_idle"
+	}]
 }

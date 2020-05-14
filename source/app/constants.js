@@ -10,7 +10,10 @@ const Constants = {
 
 		// Message to request a save-file;
 		// { screenshotDataUrl }
-		SAVE_FILES: 'm_savefiles'
+		SAVE_FILES: 'm_savefiles',
+
+		// Message to request console entries
+		CONSOLE_ENTRIES: 'm_consoleentries'
 	}
 };
 

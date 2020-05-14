@@ -1,4 +1,6 @@
-const LOG_TAG = 'Messaging |';
+import Logger from './logger';
+
+const LOG_TAG = 'Messaging';
 
 class Messaging {
 	/**
@@ -7,7 +9,7 @@ class Messaging {
 	constructor() {
 		this.handlers = {};
 		this.listening = false;
-		console.log(`${LOG_TAG} Initialized.`);
+		this.loggingEnabled = true;
 	}
 
 	/**
@@ -19,8 +21,22 @@ class Messaging {
 	 */
 	sendMessage(name, data) {
 		const message = {name, data};
-		console.log(`${LOG_TAG} Sending message:`, message);
+		Logger.log(LOG_TAG, 'Sending message:', message);
 		return browser.runtime.sendMessage(null, message, null);
+	}
+
+	/**
+	 * Sends a browser "runtime" message with an object of the following format:
+	 * { name, data }
+	 * @param {Number} tabId The tab identifier to send message to.
+	 * @param {String} name The message name (declared constant)
+	 * @param {String} [data] An optional data object
+	 * @returns {Promise} A promise resolved with the response of the message handler.
+	 */
+	sendContentScriptMessage(tabId, name, data) {
+		const message = {name, data};
+		Logger.log(LOG_TAG, 'Sending content-script message:', message);
+		return browser.tabs.sendMessage(tabId, message, null);
 	}
 
 	/**
@@ -29,7 +45,7 @@ class Messaging {
 	 * @param {Function} handler A function to handle the message (argument is the message-data).
 	 */
 	registerMessageHandler(name, handler) {
-		console.log(`${LOG_TAG} Registering message listener: ${name}`);
+		Logger.log(LOG_TAG, 'Registering message listener', name);
 		const handlers = this.handlers[name] || [];
 		handlers.push(handler);
 		this.handlers[name] = handlers;
@@ -48,7 +64,7 @@ class Messaging {
 	}
 
 	async _handleMessage(message) {
-		console.log(`${LOG_TAG} On message:`, message);
+		Logger.log(LOG_TAG, 'On message:', message);
 
 		const {name, data} = message;
 		const handlers = this.handlers[name];
@@ -62,7 +78,7 @@ class Messaging {
 			return (results.length === 1 ? results[0] : results);
 		}
 
-		console.log(`${LOG_TAG} Unknown message.`, name);
+		Logger.log(LOG_TAG, 'Unknown message:', message);
 	}
 }
 

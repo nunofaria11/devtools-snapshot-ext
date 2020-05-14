@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
+import Logger from './logger';
 
-const LOG_TAG = 'FileUtils |';
+const LOG_TAG = 'FileUtils';
 
 export default class FileUtils {
 	/**
@@ -32,7 +33,7 @@ export default class FileUtils {
 	}
 
 	static async downloadFile(file, name) {
-		console.log(`${LOG_TAG} Downloading file...`, {file, name});
+		Logger.log(LOG_TAG, 'Downloading file...', {file, name});
 
 		const url = URL.createObjectURL(file);
 
@@ -48,14 +49,14 @@ export default class FileUtils {
 			// Wait for download to finish to revoke URL
 			browser.downloads.onChanged.addListener(downloadItem => {
 				if (downloadId === downloadItem.id) {
-					console.log(`${LOG_TAG} File downloaded successfully.`, downloadItem);
+					Logger.log(LOG_TAG, 'File downloaded successfully.', downloadItem);
 					URL.revokeObjectURL(url);
 				}
 			});
 
 			return true;
 		} catch (error) {
-			console.error(`${LOG_TAG} Error on file download.`, error);
+			Logger.error(LOG_TAG, 'Error on file download.', error);
 			throw error;
 		}
 	}
@@ -66,7 +67,7 @@ export default class FileUtils {
 	}
 
 	static zip(files) {
-		console.log(`${LOG_TAG} Zipping files.`, {files});
+		Logger.log(LOG_TAG, 'Zipping files.', {files});
 
 		const jszip = new JSZip();
 
