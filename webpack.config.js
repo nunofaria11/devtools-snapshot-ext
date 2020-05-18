@@ -8,6 +8,7 @@ module.exports = {
 	stats: 'errors-only',
 	entry: {
 		background: './source/background',
+		content_inject: './source/content_inject',
 		content: './source/content',
 		panel: './source/panel',
 		devtools: './source/devtools'

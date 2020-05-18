@@ -1,27 +1,37 @@
-import Constants from './app/constants';
-import SnapshotConsole from './app/snapshot-console';
-import Messaging from './app/messaging';
-import Logger from './app/logger';
-
-Logger.enabled = false;
-
-function onDocumentReady() {
-	const {console} = window;
-	const snapshotConsole = new SnapshotConsole(console);
-
-	// Override pages "console"
-	// window.console = snapshotConsole;
-
-	async function handleConsoleEntriesRequest() {
-		return Promise.resolve(snapshotConsole.entries);
-	}
-
-	Messaging.registerMessageHandler(Constants.Messages.CONSOLE_ENTRIES, handleConsoleEntriesRequest);
+/*
+ * Adapted from:
+ * https://stackoverflow.com/questions/9515704/insert-code-into-the-page-context-using-a-content-script
+ */
+function scriptFromFile(file) {
+    const script = document.createElement("script");
+    script.src = browser.extension.getURL(file);
+    return script;
 }
 
-if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
-	onDocumentReady();
-} else {
-	document.addEventListener('DOMContentLoaded', onDocumentReady);
+function inject(parentNode, scripts) {
+    if (scripts.length === 0) {
+        return;
+    }
+    const otherScripts = scripts.slice(1);
+    const script = scripts[0];
+    const onload = function () {
+        script.parentNode.removeChild(script);
+        inject(parentNode, otherScripts);
+    };
+    if (script.src !== "") {
+        script.onload = onload;
+        parentNode.appendChild(script);
+    } else {
+        parentNode.appendChild(script);
+        onload();
+    }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const documentHead = document.querySelector('head');
+    const scriptFiles = [
+        'content_inject.js'
+    ];
+    const scripts = scriptFiles.map(scriptFromFile);
+    inject(documentHead, scripts);
+});
