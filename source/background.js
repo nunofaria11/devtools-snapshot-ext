@@ -8,12 +8,12 @@ const LOG_TAG = 'Background';
 async function handleScreenshotRequest() {
 	Logger.log(LOG_TAG, 'Handling screenshot request...');
 
-	const options = { format: 'png' };
+	const options = {format: 'png'};
 
 	try {
 		const dataUrl = await browser.tabs.captureVisibleTab(null, options);
 
-		Logger.log(LOG_TAG, 'Successfully captured screenshot.', { dataUrl });
+		Logger.log(LOG_TAG, 'Successfully captured screenshot.', {dataUrl});
 		return dataUrl;
 	} catch (error) {
 		Logger.error(LOG_TAG, 'Error occurred on screenshot.', error);
@@ -27,7 +27,7 @@ async function handleStorageDataRequest(tabId) {
 	try {
 		const storageData = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.STORAGE_DATA);
 
-		Logger.log(LOG_TAG, 'Successfully retrieved storage data.', { storageData });
+		Logger.log(LOG_TAG, 'Successfully retrieved storage data.', {storageData});
 		return storageData;
 	} catch (error) {
 		Logger.error(LOG_TAG, 'Error occurred on storage data.', error);
@@ -41,7 +41,7 @@ async function handleConsoleEntriesRequest(tabId) {
 	try {
 		const consoleEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
 
-		Logger.log(LOG_TAG, 'Successfully retrieved console entries.', { consoleEntries });
+		Logger.log(LOG_TAG, 'Successfully retrieved console entries.', {consoleEntries});
 		return consoleEntries;
 	} catch (error) {
 		Logger.error(LOG_TAG, 'Error occurred on console entries.', error);
@@ -74,7 +74,7 @@ async function handleSaveFiles(fileData) {
 
 	const timestamp = Date.now();
 	const files = [];
-	const { screenshotDataUrl, consoleLogEntries, networkHARLog, storageData } = fileData;
+	const {screenshotDataUrl, consoleLogEntries, networkHARLog, storageData} = fileData;
 
 	if (screenshotDataUrl) {
 		const screenshotBlob = FileUtils.toBlob(screenshotDataUrl);
@@ -84,21 +84,21 @@ async function handleSaveFiles(fileData) {
 
 	if (consoleLogEntries) {
 		const textData = convertLogEntriesToText(consoleLogEntries);
-		const consoleBlob = new Blob([textData], { type: 'text/plain' });
+		const consoleBlob = new Blob([textData], {type: 'text/plain'});
 		const consoleFile = new File([consoleBlob], `console-${timestamp}.txt`);
 		files.push(consoleFile);
 	}
 
 	if (networkHARLog) {
-		const textData = JSON.stringify({ log: networkHARLog });
-		const networkBlob = new Blob([textData], { type: 'text/plain' });
+		const textData = JSON.stringify({log: networkHARLog});
+		const networkBlob = new Blob([textData], {type: 'text/plain'});
 		const networkFile = new File([networkBlob], `network-${timestamp}.har`);
 		files.push(networkFile);
 	}
 
 	if (storageData) {
 		const textData = JSON.stringify(storageData);
-		const storageBlob = new Blob([textData], { type: 'text/plain' });
+		const storageBlob = new Blob([textData], {type: 'text/plain'});
 		const storageFile = new File([storageBlob], `storage-${timestamp}.json`);
 		files.push(storageFile);
 	}

@@ -39,20 +39,20 @@ export default class Snapshot {
 
 		if (screenshotDataUrl || consoleLogEntries || networkHARLog || storageData) {
 			// Request save-file operation from background script
-			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, { screenshotDataUrl, consoleLogEntries, networkHARLog, storageData });
+			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, {screenshotDataUrl, consoleLogEntries, networkHARLog, storageData});
 		}
 	}
 
 	static async captureNetworkHARLogs() {
 		return new Promise((resolve, reject) => {
 			try {
-				browser.devtools.network.getHAR((harLogs) => {
+				browser.devtools.network.getHAR(harLogs => {
 					Logger.log(LOG_TAG, 'Captured network logs.', harLogs);
 					resolve(harLogs);
 				});
-			} catch (ex) {
-				Logger.error(LOG_TAG, 'Error occurred when capturing network HAR.', ex);
-				reject(ex);
+			} catch (error) {
+				Logger.error(LOG_TAG, 'Error occurred when capturing network HAR.', error);
+				reject(error);
 			}
 		});
 	}
