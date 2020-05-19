@@ -24,7 +24,7 @@ export default class Snapshot {
 		let consoleLogEntries;
 		if (options.console) {
 			// Capture console logs
-			consoleLogEntries = await Snapshot.captureConsoleLogs(tabId);
+			consoleLogEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
 		}
 
 		let networkHARLog;
@@ -32,9 +32,14 @@ export default class Snapshot {
 			networkHARLog = await Snapshot.captureNetworkHARLogs();
 		}
 
-		if (screenshotDataUrl || consoleLogEntries) {
+		let storageData;
+		if (options.storage) {
+			storageData = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.STORAGE_DATA);
+		}
+
+		if (screenshotDataUrl || consoleLogEntries || networkHARLog || storageData) {
 			// Request save-file operation from background script
-			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, { screenshotDataUrl, consoleLogEntries, networkHARLog });
+			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, { screenshotDataUrl, consoleLogEntries, networkHARLog, storageData });
 		}
 	}
 
@@ -59,12 +64,6 @@ export default class Snapshot {
 			Logger.error(LOG_TAG, 'Error occurred on screenshot.', error);
 			throw error;
 		}
-	}
-
-	static async captureConsoleLogs(tabId) {
-		const consoleEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
-		Logger.log(LOG_TAG, 'Captured console entries.', consoleEntries);
-		return consoleEntries;
 	}
 
 	static async captureNetworkHARLogs() {

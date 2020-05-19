@@ -36,7 +36,7 @@ async function handleSaveFiles(fileData) {
 
 	const timestamp = Date.now();
 	const files = [];
-	const {screenshotDataUrl, consoleLogEntries, networkHARLog} = fileData;
+	const {screenshotDataUrl, consoleLogEntries, networkHARLog, storageData} = fileData;
 
 	if (screenshotDataUrl) {
 		const screenshotBlob = FileUtils.toBlob(screenshotDataUrl);
@@ -56,6 +56,13 @@ async function handleSaveFiles(fileData) {
 		const networkBlob = new Blob([textData], {type: 'text/plain'});
 		const networkFile = new File([networkBlob], `network-${timestamp}.har`);
 		files.push(networkFile);
+	}
+
+	if (storageData) {
+		const textData = JSON.stringify(storageData);
+		const storageBlob = new Blob([textData], {type: 'text/plain'});
+		const storageFile = new File([storageBlob], `storage-${timestamp}.json`);
+		files.push(storageFile);
 	}
 
 	const zipFile = await FileUtils.zip(files);

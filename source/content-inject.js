@@ -28,6 +28,14 @@ PageMessaging.registerMessageHandler(Constants.PageMessages.CONSOLE_ENTRIES, () 
 	return snapshotConsoleModel.logEntries;
 });
 
+PageMessaging.registerMessageHandler(Constants.PageMessages.STORAGE_DATA, () => {
+	return {
+		localStorage: JSON.stringify(localStorage),
+		sessionStorage: JSON.stringify(sessionStorage),
+		cookie: document.cookie
+	};
+});
+
 window.addEventListener('beforeunload', () => {
 	attachedConsoleHook.detach();
 });

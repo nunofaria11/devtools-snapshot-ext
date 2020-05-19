@@ -8,6 +8,7 @@ optionsStorage.syncForm('#snapshotForm');
 const screenshotEl = document.querySelector('#screenshot');
 const consoleEl = document.querySelector('#console');
 const networkEl = document.querySelector('#network');
+const storageEl = document.querySelector('#storage');
 const saveButtonEl = document.querySelector('#saveButton');
 
 saveButtonEl.addEventListener('click', evt => {
@@ -15,7 +16,7 @@ saveButtonEl.addEventListener('click', evt => {
 	const screenshot = screenshotEl.checked;
 	const network = networkEl.checked;
 	const console = consoleEl.checked;
-	const storage = false;
+	const storage = storageEl.checked;
 
 	const {devtools} = browser;
 	const {inspectedWindow} = devtools;

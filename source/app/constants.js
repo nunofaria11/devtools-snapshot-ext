@@ -13,7 +13,10 @@ const Constants = {
 		SAVE_FILES: 'm_savefiles',
 
 		// Message to request console entries
-		CONSOLE_ENTRIES: 'm_consoleentries'
+		CONSOLE_ENTRIES: 'm_consoleentries',
+
+		// Message to request page storage data
+		STORAGE_DATA: 'm_storagedata'
 	},
 
 	/**
@@ -22,7 +25,10 @@ const Constants = {
 	PageMessages: {
 
 		// Message to request console entries from page-context
-		CONSOLE_ENTRIES: 'pm_consoleentries'
+		CONSOLE_ENTRIES: 'pm_consoleentries',
+
+		// Message to request page storage data from page-context
+		STORAGE_DATA: 'pm_storagedata'
 	}
 };
 

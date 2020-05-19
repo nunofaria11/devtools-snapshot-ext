@@ -6,12 +6,20 @@ import PageMessaging from './app/page-messaging';
 Logger.enabled = false;
 
 Messaging.registerMessageHandler(Constants.Messages.CONSOLE_ENTRIES, handleConsoleEntriesRequest);
+Messaging.registerMessageHandler(Constants.Messages.STORAGE_DATA, handleStorageDataRequest);
 
 async function handleConsoleEntriesRequest() {
 	// Request the page context for logEntries
 	const logEntries = await PageMessaging.postMessage(Constants.PageMessages.CONSOLE_ENTRIES);
 
 	return Promise.resolve(logEntries);
+}
+
+async function handleStorageDataRequest() {
+	// Request the page context for storage data
+	const storageData = await PageMessaging.postMessage(Constants.PageMessages.STORAGE_DATA);
+
+	return Promise.resolve(storageData);
 }
 
 /*
