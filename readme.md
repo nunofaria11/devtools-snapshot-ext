@@ -4,7 +4,6 @@
 
 A browser extension to save the current state of the DevTools panel.
 
-## Behavior
 Saves a zip file with the following data extracted from the page and DevTools APIs:
 - page screenshot
 - console logs
