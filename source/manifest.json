@@ -19,8 +19,7 @@
 		"tabs",
 		"activeTab",
 		"downloads",
-		"background",
-		"storage"
+		"background"
 	],
 	"background": {
 		"persistent": false,
