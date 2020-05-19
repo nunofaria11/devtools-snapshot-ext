@@ -33,6 +33,6 @@
 		"run_at": "document_start"
 	}],
 	"web_accessible_resources": [
-		"content_inject.js"
+		"content-inject.js"
 	]
 }

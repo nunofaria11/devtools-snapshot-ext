@@ -1,8 +1,8 @@
 
+import consoleHook from 'console-hook';
 import Logger from './app/logger';
 import PageMessaging from './app/page-messaging';
 import Constants from './app/constants';
-import consoleHook from 'console-hook';
 
 Logger.enabled = false;
 
@@ -13,12 +13,14 @@ const attachedConsoleHook = consoleHook().attach((method, consoleArgs) => {
 	let args;
 	if (consoleArgs) {
 		args = [];
-		for (let a of consoleArgs) {
+		for (const a of consoleArgs) {
 			args.push(a);
 		}
+
 		args = JSON.parse(JSON.stringify(args));
 	}
-	const logEntry = { method, args, timestamp: Date.now() };
+
+	const logEntry = {method, args, timestamp: Date.now()};
 	snapshotConsoleModel.logEntries.push(logEntry);
 });
 
@@ -27,5 +29,5 @@ PageMessaging.registerMessageHandler(Constants.PageMessages.CONSOLE_ENTRIES, () 
 });
 
 window.addEventListener('beforeunload', () => {
-	attachedConsoleHook.detach()
+	attachedConsoleHook.detach();
 });

@@ -1,6 +1,6 @@
 import Constants from './constants';
 import Messaging from './messaging';
-import Logger from './logger';;
+import Logger from './logger';
 
 const LOG_TAG = 'Snapshot';
 

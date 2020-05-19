@@ -15,19 +15,20 @@ function convertLogEntryToText(logEntry) {
 	const date = new Date(logEntry.timestamp).toISOString();
 	const parts = [`${date}|${logEntry.method}|`];
 	if (logEntry.args) {
-		for (let arg of logEntry.args) {
-			if (typeof arg === "string") {
+		for (const arg of logEntry.args) {
+			if (typeof arg === 'string') {
 				parts.push(arg);
 			} else {
 				parts.push(JSON.stringify(arg));
 			}
 		}
 	}
-	return parts.join("");
+
+	return parts.join('');
 }
 
 function convertLogEntriesToText(logEntries) {
-	return logEntries.map(convertLogEntryToText).join("\r\n");
+	return logEntries.map(convertLogEntryToText).join('\r\n');
 }
 
 async function handleSaveFiles(fileData) {
@@ -35,7 +36,7 @@ async function handleSaveFiles(fileData) {
 
 	const timestamp = Date.now();
 	const files = [];
-	const { screenshotDataUrl, consoleLogEntries } = fileData;
+	const {screenshotDataUrl, consoleLogEntries} = fileData;
 
 	if (screenshotDataUrl) {
 		const screenshotBlob = FileUtils.toBlob(screenshotDataUrl);
@@ -45,7 +46,7 @@ async function handleSaveFiles(fileData) {
 
 	if (consoleLogEntries) {
 		const textData = convertLogEntriesToText(consoleLogEntries);
-		const consoleBlob = new Blob([textData], { type: 'text/plain' });
+		const consoleBlob = new Blob([textData], {type: 'text/plain'});
 		const consoleFile = new File([consoleBlob], `console-${timestamp}.txt`);
 		files.push(consoleFile);
 	}

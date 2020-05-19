@@ -18,8 +18,8 @@ class PageMessaging {
 			const type = EXT_TYPES.REQUEST;
 			const id = Math.random().toString(36).substring(7);
 
-			const request = { name, data, type, id };
-			this.pendingRequests[id] = { resolve, reject };
+			const request = {name, data, type, id};
+			this.pendingRequests[id] = {resolve, reject};
 
 			window.postMessage(request, window.origin);
 		});
@@ -35,9 +35,9 @@ class PageMessaging {
 		if (evt.source !== window || !evt.data) {
 			return;
 		}
+
 		const response = evt.data;
 		switch (response.type) {
-
 			case EXT_TYPES.REQUEST:
 				this._handleRequest(evt);
 				break;
@@ -57,13 +57,15 @@ class PageMessaging {
 		if (this.pendingRequests[request.id]) {
 			return;
 		}
+
 		const handlers = this.handlers[request.name] || [];
 		const results = [];
 		if (handlers.length > 0) {
-			for (let handler of handlers) {
+			for (const handler of handlers) {
 				const result = handler(request.data);
 				results.push(result);
 			}
+
 			const response = {
 				id: request.id,
 				name: request.name,
