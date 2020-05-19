@@ -11,3 +11,7 @@ A browser extension to save the current state of the DevTools panel.
 - [X] Console logs
 - [X] Network HAR file
 - [X] Local storage
+- [ ] Refactor code for better organization
+- [ ] Test on Firefox
+- [ ] Readme
+- [ ] Deploy Chrome/Mozilla store
