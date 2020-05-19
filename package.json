@@ -1,6 +1,6 @@
 {
 	"name": "devtools-snapshot-ext",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A browser extension to save the current state of the DevTools panel.",
 	"private": true,
 	"scripts": {

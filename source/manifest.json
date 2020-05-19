@@ -1,6 +1,6 @@
 {
 	"name": "DevTools Snapshot Extension",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A browser extension to save the current state of the DevTools panel.",
 	"homepage_url": "https://github.com/nunofaria11/devtools-snapshot-ext",
 	"manifest_version": 2,
