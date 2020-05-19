@@ -1,7 +1,6 @@
 import Constants from './constants';
 import Messaging from './messaging';
-import Logger from './logger';
-// Import ConsoleDebugger from './console-debugger';
+import Logger from './logger';;
 
 const LOG_TAG = 'Snapshot';
 
@@ -71,5 +70,6 @@ export default class Snapshot {
 	static async captureConsoleLogs(tabId) {
 		const consoleEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
 		Logger.log(LOG_TAG, 'Captured console entries.', consoleEntries);
+		return consoleEntries;
 	}
 }

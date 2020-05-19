@@ -1,7 +1,7 @@
 const Constants = {
 
 	/**
-     * Message names
+     * Message names to exchange in extension run-time context (background, devtools and content-scripts)
      */
 	Messages: {
 
@@ -14,6 +14,15 @@ const Constants = {
 
 		// Message to request console entries
 		CONSOLE_ENTRIES: 'm_consoleentries'
+	},
+
+	/**
+	 * Message names to exchange between content-script and page context.
+	 */
+	PageMessages: {
+
+		// Message to request console entries from page-context
+		CONSOLE_ENTRIES: 'pm_consoleentries'
 	}
 };
 
