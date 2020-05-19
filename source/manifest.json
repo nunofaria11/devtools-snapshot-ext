@@ -15,7 +15,9 @@
 		"tabs",
 		"activeTab",
 		"downloads",
-		"debugger"
+		"debugger",
+		"background",
+		"storage"
 	],
 	"background": {
 		"persistent": false,

@@ -7,12 +7,13 @@ optionsStorage.syncForm('#snapshotForm');
 // HTML elements
 const screenshotEl = document.querySelector('#screenshot');
 const consoleEl = document.querySelector('#console');
+const networkEl = document.querySelector('#network');
 const saveButtonEl = document.querySelector('#saveButton');
 
 saveButtonEl.addEventListener('click', evt => {
 	// Add more options here
 	const screenshot = screenshotEl.checked;
-	const network = false;
+	const network = networkEl.checked;
 	const console = consoleEl.checked;
 	const storage = false;
 

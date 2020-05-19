@@ -8,6 +8,6 @@ A browser extension to save the current state of the DevTools panel.
 - [X] Screenshot
 - [X] Save file
 - [X] Save in zip file
-- [ ] Console logs
-- [ ] Network HAR file
+- [X] Console logs
+- [X] Network HAR file
 - [ ] Local storage

@@ -27,9 +27,14 @@ export default class Snapshot {
 			consoleLogEntries = await Snapshot.captureConsoleLogs(tabId);
 		}
 
+		let networkHARLog;
+		if (options.network) {
+			networkHARLog = await Snapshot.captureNetworkHARLogs();
+		}
+
 		if (screenshotDataUrl || consoleLogEntries) {
 			// Request save-file operation from background script
-			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, {screenshotDataUrl, consoleLogEntries});
+			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, { screenshotDataUrl, consoleLogEntries, networkHARLog });
 		}
 	}
 
@@ -42,13 +47,13 @@ export default class Snapshot {
 	static async captureScreenshot(tabId) {
 		Logger.log(LOG_TAG, 'Capturing screenshot...');
 
-		const options = {format: 'png'};
+		const options = { format: 'png' };
 		const captureTabId = tabId || null;
 
 		try {
 			const dataUrl = await browser.tabs.captureVisibleTab(captureTabId, options);
 
-			Logger.log(LOG_TAG, 'Successfully captured screenshot.', {dataUrl});
+			Logger.log(LOG_TAG, 'Successfully captured screenshot.', { dataUrl });
 			return dataUrl;
 		} catch (error) {
 			Logger.error(LOG_TAG, 'Error occurred on screenshot.', error);
@@ -56,20 +61,23 @@ export default class Snapshot {
 		}
 	}
 
-	// Static async captureConsoleLogs(tabId) {
-	// 	Logger.log(LOG_TAG, 'Capturing console logs.', tabId);
-
-	// 	const consoleDebugger = new ConsoleDebugger(tabId);
-
-	// 	const logEntries = await consoleDebugger.getLogEntries();
-	// 	Logger.log(LOG_TAG, 'Collected log entries.', logEntries);
-
-	// 	return logEntries;
-	// }
-
 	static async captureConsoleLogs(tabId) {
 		const consoleEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
 		Logger.log(LOG_TAG, 'Captured console entries.', consoleEntries);
 		return consoleEntries;
+	}
+
+	static async captureNetworkHARLogs() {
+		return new Promise((resolve, reject) => {
+			try {
+				browser.devtools.network.getHAR((harLogs) => {
+					Logger.log(LOG_TAG, 'Captured network logs.', harLogs);
+					resolve(harLogs);
+				});
+			} catch (ex) {
+				Logger.error(LOG_TAG, 'Error occurred when capturing network HAR.', ex);
+				reject(ex);
+			}
+		});
 	}
 }
