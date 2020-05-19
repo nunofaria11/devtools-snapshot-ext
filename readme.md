@@ -12,9 +12,9 @@ Saves a zip file (eg., `snapshot-0123456789.zip`) with the following files:
 - `localStorage`, `sessionStorage` and `document.cookie` (`storage-0123456789.json`)
 
 ## Dependencies
-- console-hook
-- jszip
-- webext-options-sync
-- webextension-polyfill
+- [console-hook](https://github.com/andrejewski/console-hook)
+- [jszip](https://github.com/Stuk/jszip)
+- [webext-options-sync](https://github.com/fregante/webext-options-sync)
+- [webextension-polyfill](https://github.com/mozilla/webextension-polyfill)
 
 Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/).
