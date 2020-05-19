@@ -47,7 +47,7 @@ function inject(parentNode, scripts) {
 
 function onDocumentHeadReady() {
 	const scriptFiles = [
-		'content-inject.js'
+		'contentInject.js'
 	];
 	const scripts = scriptFiles.map(scriptFromFile);
 	inject(document.head || document.documentElement, scripts);
