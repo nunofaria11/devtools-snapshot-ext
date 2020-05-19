@@ -1,5 +1,4 @@
 import Constants from './app/constants';
-import Snapshot from './app/snapshot';
 import FileUtils from './app/file-utils';
 import Messaging from './app/messaging';
 import Logger from './app/logger';
@@ -8,7 +7,46 @@ const LOG_TAG = 'Background';
 
 async function handleScreenshotRequest() {
 	Logger.log(LOG_TAG, 'Handling screenshot request...');
-	return Snapshot.captureScreenshot();
+
+	const options = { format: 'png' };
+
+	try {
+		const dataUrl = await browser.tabs.captureVisibleTab(null, options);
+
+		Logger.log(LOG_TAG, 'Successfully captured screenshot.', { dataUrl });
+		return dataUrl;
+	} catch (error) {
+		Logger.error(LOG_TAG, 'Error occurred on screenshot.', error);
+		throw error;
+	}
+}
+
+async function handleStorageDataRequest(tabId) {
+	Logger.log(LOG_TAG, 'Handling storage data request...');
+
+	try {
+		const storageData = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.STORAGE_DATA);
+
+		Logger.log(LOG_TAG, 'Successfully retrieved storage data.', { storageData });
+		return storageData;
+	} catch (error) {
+		Logger.error(LOG_TAG, 'Error occurred on storage data.', error);
+		throw error;
+	}
+}
+
+async function handleConsoleEntriesRequest(tabId) {
+	Logger.log(LOG_TAG, 'Handling console entries request...', tabId);
+
+	try {
+		const consoleEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
+
+		Logger.log(LOG_TAG, 'Successfully retrieved console entries.', { consoleEntries });
+		return consoleEntries;
+	} catch (error) {
+		Logger.error(LOG_TAG, 'Error occurred on console entries.', error);
+		throw error;
+	}
 }
 
 function convertLogEntryToText(logEntry) {
@@ -36,7 +74,7 @@ async function handleSaveFiles(fileData) {
 
 	const timestamp = Date.now();
 	const files = [];
-	const {screenshotDataUrl, consoleLogEntries, networkHARLog, storageData} = fileData;
+	const { screenshotDataUrl, consoleLogEntries, networkHARLog, storageData } = fileData;
 
 	if (screenshotDataUrl) {
 		const screenshotBlob = FileUtils.toBlob(screenshotDataUrl);
@@ -46,21 +84,21 @@ async function handleSaveFiles(fileData) {
 
 	if (consoleLogEntries) {
 		const textData = convertLogEntriesToText(consoleLogEntries);
-		const consoleBlob = new Blob([textData], {type: 'text/plain'});
+		const consoleBlob = new Blob([textData], { type: 'text/plain' });
 		const consoleFile = new File([consoleBlob], `console-${timestamp}.txt`);
 		files.push(consoleFile);
 	}
 
 	if (networkHARLog) {
-		const textData = JSON.stringify({log: networkHARLog});
-		const networkBlob = new Blob([textData], {type: 'text/plain'});
+		const textData = JSON.stringify({ log: networkHARLog });
+		const networkBlob = new Blob([textData], { type: 'text/plain' });
 		const networkFile = new File([networkBlob], `network-${timestamp}.har`);
 		files.push(networkFile);
 	}
 
 	if (storageData) {
 		const textData = JSON.stringify(storageData);
-		const storageBlob = new Blob([textData], {type: 'text/plain'});
+		const storageBlob = new Blob([textData], { type: 'text/plain' });
 		const storageFile = new File([storageBlob], `storage-${timestamp}.json`);
 		files.push(storageFile);
 	}
@@ -71,4 +109,7 @@ async function handleSaveFiles(fileData) {
 }
 
 Messaging.registerMessageHandler(Constants.Messages.SCREENSHOT, handleScreenshotRequest);
+Messaging.registerMessageHandler(Constants.Messages.STORAGE_DATA, handleStorageDataRequest);
+Messaging.registerMessageHandler(Constants.Messages.CONSOLE_ENTRIES, handleConsoleEntriesRequest);
+
 Messaging.registerMessageHandler(Constants.Messages.SAVE_FILES, handleSaveFiles);

@@ -18,13 +18,13 @@ export default class Snapshot {
 		let screenshotDataUrl;
 		if (options.screenshot) {
 			// Request screenshot from background script
-			screenshotDataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT);
+			screenshotDataUrl = await Messaging.sendMessage(Constants.Messages.SCREENSHOT, tabId);
 		}
 
 		let consoleLogEntries;
 		if (options.console) {
 			// Capture console logs
-			consoleLogEntries = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.CONSOLE_ENTRIES);
+			consoleLogEntries = await Messaging.sendMessage(Constants.Messages.CONSOLE_ENTRIES, tabId);
 		}
 
 		let networkHARLog;
@@ -34,35 +34,12 @@ export default class Snapshot {
 
 		let storageData;
 		if (options.storage) {
-			storageData = await Messaging.sendContentScriptMessage(tabId, Constants.Messages.STORAGE_DATA);
+			storageData = await Messaging.sendMessage(Constants.Messages.STORAGE_DATA, tabId);
 		}
 
 		if (screenshotDataUrl || consoleLogEntries || networkHARLog || storageData) {
 			// Request save-file operation from background script
 			await Messaging.sendMessage(Constants.Messages.SAVE_FILES, { screenshotDataUrl, consoleLogEntries, networkHARLog, storageData });
-		}
-	}
-
-	/**
-     * Captures a page screenshot.
-     * Note: in Firefox, can only be executed via background script.
-     * @param {String} [tabId] The tab to capture (current tab if undefined or null).
-     * @returns {String} The string with the image data URL.
-     */
-	static async captureScreenshot(tabId) {
-		Logger.log(LOG_TAG, 'Capturing screenshot...');
-
-		const options = { format: 'png' };
-		const captureTabId = tabId || null;
-
-		try {
-			const dataUrl = await browser.tabs.captureVisibleTab(captureTabId, options);
-
-			Logger.log(LOG_TAG, 'Successfully captured screenshot.', { dataUrl });
-			return dataUrl;
-		} catch (error) {
-			Logger.error(LOG_TAG, 'Error occurred on screenshot.', error);
-			throw error;
 		}
 	}
 
