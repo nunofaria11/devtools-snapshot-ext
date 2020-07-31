@@ -1,9 +1,9 @@
 
 import consoleHook from 'console-hook';
+import JsonDecycle from 'json-decycle';
 import Logger from './app/logger';
 import PageMessaging from './app/page-messaging';
 import Constants from './app/constants';
-import JsonDecycle from 'json-decycle';
 
 Logger.enabled = false;
 
