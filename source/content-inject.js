@@ -3,6 +3,7 @@ import consoleHook from 'console-hook';
 import Logger from './app/logger';
 import PageMessaging from './app/page-messaging';
 import Constants from './app/constants';
+import JsonDecycle from 'json-decycle';
 
 Logger.enabled = false;
 
@@ -17,7 +18,7 @@ const attachedConsoleHook = consoleHook().attach((method, consoleArgs) => {
 			args.push(a);
 		}
 
-		args = JSON.parse(JSON.stringify(args));
+		args = JSON.parse(JSON.stringify(args, JsonDecycle.decycle()));
 	}
 
 	const logEntry = {method, args, timestamp: Date.now()};
