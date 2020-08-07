@@ -15,7 +15,8 @@ const attachedConsoleHook = consoleHook().attach((method, consoleArgs) => {
 	if (consoleArgs) {
 		args = [];
 		for (const a of consoleArgs) {
-			args.push(a);
+			const processedArg = (a instanceof Error ? a.toString() : a);
+			args.push(processedArg);
 		}
 
 		args = JSON.parse(JSON.stringify(args, JsonDecycle.decycle()));
