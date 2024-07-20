@@ -37,7 +37,7 @@
 	"dependencies": {
 		"console-hook": "0.0.2",
 		"json-decycle": "^1.0.0",
-		"jszip": "^3.4.0",
+		"jszip": "^3.8.0",
 		"webext-options-sync": "^0.21.2",
 		"webextension-polyfill": "^0.4.0"
 	},
